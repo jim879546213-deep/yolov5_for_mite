@@ -307,8 +307,7 @@ def classify(output,img_path,device="cpu",model_cls=None,nor_mean=[0.1037, 0.070
         img = Image.open(img_path)
         img_crop_combine = None
         for i in range(len(output)):
-            x,y = output[i][5]
-            top, down, left, right = adjust_xy(x,y,range=0)
+            left,top,right,down = output[i][0],output[i][1],output[i][2],output[i][3]
             img_crop = img.crop((left,top,right,down))
             img_crop = ImageOps.expand(img_crop,(int((64-(right-left))/2),int((64-(down-top))/2),64-(right-left)-int((64-(right-left))/2),64-(down-top)-int((64-(down-top))/2)),0)
             img_crop = transform(img_crop)
