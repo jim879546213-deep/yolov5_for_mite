@@ -62,7 +62,7 @@ def return_model(obj_path = "pth\\best_adj.pt", cls_res_path = None,cls_next_pat
         nn.Linear(in_features=4096, out_features=1, bias=True),nn.Sigmoid()
           )
         model_cls.to(device_cls)
-        model_cls.load_state_dict(torch.load(cls_next_path))
+        model_cls.load_state_dict(torch.load(vgg_16_path))
         model_cls.eval()
 
     return model_obj, model_cls
