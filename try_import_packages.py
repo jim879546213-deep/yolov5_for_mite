@@ -16,7 +16,7 @@ import torch
 device_obj = select_device('')
 half = device_obj.type != 'cpu'
 
-def return_model(obj_path = "pth\\best_adj.pt", cls_res_path = None,cls_next_path=None):
+def return_model(obj_path = "pth\\best_adj.pt", cls_res_path = None,cls_next_path=None,vgg_16_path = None):
     '''
     input: 物件偵測模型參數位址, 分類模型參數位址
     return: 物件偵測模型, 分類模型
@@ -47,6 +47,20 @@ def return_model(obj_path = "pth\\best_adj.pt", cls_res_path = None,cls_next_pat
         model_cls = models.resnext50_32x4d(pretrained=False)
         model_cls.fc = nn.Sequential(nn.Linear(2048, 1),nn.Sigmoid())
 
+        model_cls.to(device_cls)
+        model_cls.load_state_dict(torch.load(cls_next_path))
+        model_cls.eval()
+    elif vgg_16_path is not None:
+        model = models.vgg16_bn(pretrained=False)
+        model.classifier = nn.Sequential(
+        nn.Linear(in_features=25088, out_features=4096, bias=True),
+        nn.ReLU(inplace=True),
+        nn.Dropout(p=0.5, inplace=False),
+        nn.Linear(in_features=4096, out_features=4096, bias=True),
+        nn.ReLU(inplace=True),
+        nn.Dropout(p=0.5, inplace=False),
+        nn.Linear(in_features=4096, out_features=1, bias=True),nn.Sigmoid()
+          )
         model_cls.to(device_cls)
         model_cls.load_state_dict(torch.load(cls_next_path))
         model_cls.eval()
