@@ -128,7 +128,7 @@ def object_detection(imgs, score_threshold = 0.4,model=None):
                 img = img.unsqueeze(0)
             model.eval()
             pred = model(img, augment='store_true')[0]
-            pred_nms = non_max_suppression(pred, score_threshold, 0.5, agnostic='store_true')#0.4表示要多少信心度以上才選
+            pred_nms = non_max_suppression(pred, score_threshold, 0.5, agnostic=False)#0.4表示要多少信心度以上才選
             if pred_nms != [None]:
                 for i in range(len(pred_nms[0])):
                     bb_left = int(left+pred_nms[0][i][0]*reshape_ratio)
@@ -193,7 +193,7 @@ def object_detection_faster(imgs, score_threshold = 0.4,model=None):
     img_combine /= 255.0  # 0 - 255 to 0.0 - 1.0
     model.eval()
     pred = model(img_combine, augment='store_true')[0]
-    pred_nms = non_max_suppression(pred, score_threshold, 0.5, agnostic='store_true')#0.4表示要多少信心度以上才選
+    pred_nms = non_max_suppression(pred, score_threshold, 0.5, agnostic=False)#0.4表示要多少信心度以上才選
     for i, result in enumerate(pred_nms):
         if result != None:
             left,top = loc_combine[i]
@@ -263,7 +263,7 @@ def object_detection_slower(imgs, score_threshold = 0.4,model=None):
     img_combine /= 255.0  # 0 - 255 to 0.0 - 1.0
     model.eval()
     pred = model(img_combine, augment='store_true')[0]
-    pred_nms = non_max_suppression(pred, score_threshold, 0.5, agnostic='store_true')#0.4表示要多少信心度以上才選
+    pred_nms = non_max_suppression(pred, score_threshold, 0.5, agnostic=False)#0.4表示要多少信心度以上才選
     for i, result in enumerate(pred_nms):
         if result != None:
             left,top = loc_combine[i]
