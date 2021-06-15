@@ -340,6 +340,6 @@ def classify(output,img_path,device="cpu",model_cls=None,nor_mean=[0.1037, 0.070
     return final_output
 
 def cls(y_pred,threshold=0.5):
-  y_pred = torch.where(y_pred>threshold, 1, 0)
+  y_pred = torch.where(y_pred>threshold, torch.tensor(1), torch.tensor(0))
   return y_pred
 
