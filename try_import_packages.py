@@ -333,7 +333,7 @@ def classify(output,img_path,device="cpu",model_cls=None,nor_mean=[0.1037, 0.070
         img_crop_combine = img_crop_combine.to(device)
         output = model_cls(img_crop_combine).cpu()
         output.squeeze_(0)
-        output_cls = cls(output)
+        output_cls = cls(output,threshold=0.7)
         final_output = [list(output_cls.detach().numpy()),list(output.detach().numpy())]
     else:
         final_output = []
